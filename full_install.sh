@@ -175,16 +175,16 @@ function install_gperf(){
 	counter=$(($counter+1))
 }
 
-function install_openocd(){
-	printf "\n($counter) Installing OpenOCD...\n"
-	sudo apt install -y openocd
+function install_kconfig_frontends(){
+	printf "\n($counter) Installing kconfing-frontends...\n"
+	sudo apt-get install -y kconfig-frontends
 	counter=$(($counter+1))
 }
 
 function install_nuttx(){
 	printf "\n($counter) Installing NuttX...\n"
-	git clone https://bitbucket.org/nuttx/nuttx
-	git clone https://bitbucket.org/nuttx/apps
+	git clone https://github.com/apache/incubator-nuttx.git nuttx
+	git clone https://github.com/apache/incubator-nuttx-apps.git apps
 	git clone https://bitbucket.org/nuttx/tools
 	cd tools/kconfig-frontends/
 	./configure
@@ -192,8 +192,6 @@ function install_nuttx(){
 	sudo make install
 	sudo ldconfig
 	cd ../..
-	cd nuttx/tools/
-	./configure.sh stm32f103-minimum/nsh
 	counter=$(($counter+1))
 }
 
@@ -228,7 +226,7 @@ function main(){
 	install_bison
 	install_byacc
 	install_gperf
-	install_openocd
+	install_kconfig_frontends
 	install_nuttx
 	finalize_installation
 }

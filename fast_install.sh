@@ -275,21 +275,21 @@ function install_gperf(){
 	counter=$(($counter+1))
 }
 
-function install_openocd(){
-	printf "\n($counter) Installing OpenOCD...\n"
-	openocd_local=$(which openocd)
-	if [[ -z "$openocd_local" ]]; then
-		sudo apt install -y openocd
+function install_kconfig_frontends(){
+	printf "\n($counter) Installing kconfig-frontends...\n"
+	kconfig_frontends_local=$(which kconfig)
+	if [[ -z "$kconfig_frontends_local" ]]; then
+		sudo apt-get install -y kconfig-frontends
 	else
-		printf "[-] OpenOCD is already installed!\n"
+		printf "[-] Kconfig-frontends is already installed!\n"
 	fi
 	counter=$(($counter+1))
 }
 
 function install_nuttx(){
 	printf "\n($counter) Installing NuttX...\n"
-	git clone https://bitbucket.org/nuttx/nuttx
-	git clone https://bitbucket.org/nuttx/apps
+	git clone https://github.com/apache/incubator-nuttx.git nuttx
+	git clone https://github.com/apache/incubator-nuttx-apps.git apps
 	git clone https://bitbucket.org/nuttx/tools
 	cd tools/kconfig-frontends/
 	./configure
@@ -297,8 +297,6 @@ function install_nuttx(){
 	sudo make install
 	sudo ldconfig
 	cd ../..
-	cd nuttx/tools/
-	./configure.sh stm32f103-minimum/nsh
 	counter=$(($counter+1))
 }
 
@@ -333,7 +331,7 @@ function main(){
 	install_bison
 	install_byacc
 	install_gperf
-	install_openocd
+	install_kconfig_frontends
 	install_nuttx
 	finalize_installation
 }
